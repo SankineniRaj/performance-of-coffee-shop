@@ -1,56 +1,70 @@
+☕ Coffee Shop Sales Performance Dashboard
+🚀 Project Overview
 
-Coffee Shop Sales Performance Dashboard
-Project Overview
-This project involves the creation of an end-to-end interactive dashboard to analyze sales, footfall, and product trends for a coffee shop chain over a six-month period (January to June). The goal was to transform raw transactional data into actionable business insights regarding peak hours, top-performing locations, and product popularity.
+This project showcases an end-to-end interactive dashboard built to analyze sales, footfall, and product trends for a coffee shop chain over a six-month period (January → June).
 
-Tools Used 
-Microsoft Excel: The sole tool used for the entire pipeline (Data Cleaning, Analysis, and Visualization).
+🎯 Objective: Transform raw transactional data into actionable insights to understand:
 
-Power Query: Used for ETL (Extract, Transform, Load) processes.
+⏰ Peak business hours
+📍 Top-performing locations
+🥐 Most popular products
 
-Pivot Tables & Pivot Charts: Used for data aggregation and visualization.
+🛠️ Tool Used: Microsoft Excel (entire pipeline)
 
-Data Pipeline & Methodology
-1. Data Cleaning (Power Query)
-Raw CSV data was imported into Power Query to ensure data integrity and create necessary dimensions for analysis:
+🧰 Tools & Techniques
 
-Trimming: Removed leading and trailing spaces from text columns to prevent grouping errors.
+✨ Everything was built using Excel’s powerful features:
 
-Time Transformation: Extracted the Hour from the transaction time to enable hourly trend analysis.
+🔄 Power Query → ETL (Extract, Transform, Load)
+📊 Pivot Tables & Charts → Data aggregation & visualization
+🎨 Dashboard Design → Coffee-themed UI for better storytelling
+⚙️ Data Pipeline & Methodology
+🧹 1. Data Cleaning (Power Query)
 
-Custom Columns: Created day names and month names for time-series filtering.
+Ensured clean, structured, and analysis-ready data:
 
-Data Typing: Ensured currency, dates, and quantities were correctly formatted.
+✂️ Trimmed text fields → Removed unwanted spaces
+⏱️ Extracted Hour → Enabled hourly trend insights
+📅 Created Day & Month columns → Time-based filtering
+💲 Standardized data types → Accurate calculations
+📊 2. Data Modeling & Analysis
 
-2. Data Modeling & Analysis
-Using Pivot Tables, the cleaned data was aggregated to calculate key performance indicators (KPIs) and distributions:
+Used Pivot Tables to generate key KPIs:
 
-Total Sales and Footfall calculations.
+💰 Total Sales
+👥 Total Footfall
+🧾 Average Bill per Person
+📦 Average Order Size
+☕ Category-wise Sales Distribution (9 categories)
+🥤 Order Size Breakdown (Small / Regular / Large)
+🎨 3. Visualization & Dashboard Design
 
-Average Bill and Order size per person.
+Designed an interactive and intuitive dashboard:
 
-Sales distribution across 9 different product categories.
+📌 KPI Cards → Quick snapshot of business performance
+📈 Hourly Trend Chart → Identifies demand spikes
+🗺️ Location Comparison → Performance across stores
+🏆 Top 5 Products Chart → Best-selling items
+🎛️ Slicers (Filters) →
+📅 Month
+📆 Day
+🔥 Key Insights
+⏰ Peak Hours
 
-Order volume by size (Large, Regular, Small).
+🚀 Orders surge between 8:00 AM – 10:00 AM
+➡️ Strong morning rush / breakfast demand
 
-3. Visualization & Design
-The dashboard was designed with a cohesive "Coffee-themed" color palette and features:
+📍 Location Performance
 
-KPI Cards: High-level summary of Sales, Footfall, and Averages.
+🏙️ Identified high-performing stores across:
 
-Trend Analysis: A line chart showing the "Quantity Ordered Based on Hours," identifying a significant peak at 10:00 AM.
+Astoria
+Hell’s Kitchen
+Lower Manhattan
 
-Geospatial Insights: Bar charts comparing footfall and sales across three locations: Astoria, Hell's Kitchen, and Lower Manhattan.
+👉 Helps in resource allocation & staffing decisions
 
-Product Performance: A "Top 5 Products" chart highlighting Barista Espresso as the leading revenue generator.
+☕ Product Performance
 
-Interactivity: Added Slicers for "Month Name" and "Day Name," allowing users to filter the entire dashboard dynamically.
-
-Key Insights
-Peak Hours: Order volume surges between 8:00 AM and 10:00 AM, suggesting a heavy breakfast/morning rush.
-
-Top Location: Hell's Kitchen leads in both footfall (50,735) and total sales ($2,36,511.17).
-
-Product Mix: "Coffee" is the dominant category at 39%, followed by "Tea" at 28%.
-
-Customer Behavior: Regular and Large sizes are nearly equal in popularity (31% and 30%), suggesting customers prefer standard or larger portions.
+🥇 Top Seller: Barista Espresso
+➡️ Major contributor to overall revenue

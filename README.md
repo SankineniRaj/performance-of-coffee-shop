@@ -3,7 +3,7 @@ Coffee Shop Sales Performance Dashboard
 Project Overview
 This project involves the creation of an end-to-end interactive dashboard to analyze sales, footfall, and product trends for a coffee shop chain over a six-month period (January to June). The goal was to transform raw transactional data into actionable business insights regarding peak hours, top-performing locations, and product popularity.
 
-Tools Used [Download/View Excel Dashboard](./Coffee_Shop_Sales.xlsx)
+Tools Used 
 Microsoft Excel: The sole tool used for the entire pipeline (Data Cleaning, Analysis, and Visualization).
 
 Power Query: Used for ETL (Extract, Transform, Load) processes.

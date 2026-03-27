@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Coffee Shop Sales – Problem Statement</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #21262d;
+    --border: #30363d;
+    --accent: #c9782a;
+    --accent2: #f0a05a;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --blue: #58a6ff;
+    --coffee: #6b3f1f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .repo-path { color: var(--blue); }
+  .repo-path span { color: var(--muted); margin: 0 4px; }
+  .issue-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .5px;
+  }
+
+  /* ── Main layout ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Issue header ── */
+  .issue-header { margin-bottom: 32px; }
+
+  .issue-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .tag {
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .tag-analysis { border-color: #388bfd; color: #58a6ff; background: #0d2a4e; }
+  .tag-data     { border-color: #3fb950; color: #3fb950; background: #0f2d1a; }
+  .tag-viz      { border-color: var(--accent); color: var(--accent2); background: #2d1a08; }
+  .tag-open     { border-color: #3fb950; color: #3fb950; background: #0f2d1a; }
+
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-row span { display: flex; align-items: center; gap: 6px; }
+
+  /* ── Body card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .card-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .card-body { padding: 24px; }
+
+  /* ── Sections ── */
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h2 .icon { font-size: 18px; }
+
+  p { margin-bottom: 14px; color: #c9d1d9; }
+
+  ul {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+  ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: #c9d1d9;
+  }
+  ul li::before {
+    content: "▸";
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+    font-size: 12px;
+    top: 3px;
+  }
+
+  /* ── KPI strip ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .kpi {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .kpi-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent2);
+  }
+  .kpi-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    margin-top: 4px;
+  }
+
+  /* ── Questions grid ── */
+  .q-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .q-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #c9d1d9;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    min-width: 22px;
+    margin-top: 1px;
+  }
+
+  /* ── Deliverables ── */
+  .deliverable-list { margin-top: 4px; }
+  .deliverable-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .deliverable-list li:last-child { border-bottom: none; }
+  .del-check {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+  }
+  .del-check.done { border-color: var(--green); color: var(--green); }
+
+  /* ── Code block ── */
+  .code-block {
+    background: #010409;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #e6edf3;
+    overflow-x: auto;
+    margin: 16px 0;
+    line-height: 1.8;
+  }
+  .code-block .k { color: #ff7b72; }
+  .code-block .s { color: #a5d6ff; }
+  .code-block .c { color: #6e7681; }
+
+  /* ── Footer ── */
+  .footer-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .avatar-row { display: flex; gap: 6px; align-items: center; }
+  .avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--coffee));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: white;
+  }
+
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  @media (max-width: 620px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .q-grid   { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <span>☕</span>
+  <span class="repo-path">
+    coffee-analytics<span>/</span>issues<span>/</span>#1
+  </span>
+  <span class="issue-badge">OPEN</span>
+</div>
+
+<!-- Main -->
+<div class="container">
+
+  <!-- Issue header -->
+  <div class="issue-header">
+    <div class="issue-number">Issue #1 · opened Mar 27, 2026</div>
+    <h1>📊 Coffee Shop Sales — Exploratory Data Analysis & Dashboard Design</h1>
+    <div class="tags">
+      <span class="tag tag-open">open</span>
+      <span class="tag tag-analysis">data-analysis</span>
+      <span class="tag tag-data">EDA</span>
+      <span class="tag tag-viz">visualization</span>
+    </div>
+    <div class="meta-row">
+      <span>👤 assigned to <strong style="color:var(--text)">you</strong></span>
+      <span>🏷 milestone: <strong style="color:var(--text)">v1.0 – Analytics MVP</strong></span>
+      <span>📅 due: <strong style="color:var(--text)">Q2 2026</strong></span>
+    </div>
+  </div>
+
+  <!-- Problem Statement -->
+  <div class="card">
+    <div class="card-header"><span class="card-dot"></span> Problem Statement</div>
+    <div class="card-body">
+      <h2><span class="icon">🎯</span> Background</h2>
+      <p>
+        A multi-location coffee shop chain operating across <strong>Astoria</strong>, 
+        <strong>Hell's Kitchen</strong>, and <strong>Lower Manhattan</strong> has collected 
+        transactional sales data covering January–June. Despite generating over 
+        <strong>$698,812 in total revenue</strong> and recording <strong>149,116 customer footfalls</strong>, 
+        management lacks actionable visibility into <em>when</em>, <em>where</em>, and 
+        <em>what</em> is driving performance.
+      </p>
+      <p>
+        The business needs a structured analytical framework and interactive dashboard 
+        to transform raw transactional data into clear, decision-ready insights — enabling 
+        smarter staffing, inventory planning, and promotional targeting.
+      </p>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-val">$6,98,812</div>
+          <div class="kpi-label">Total Sales</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">149,116</div>
+          <div class="kpi-label">Total Footfall</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">$4.69</div>
+          <div class="kpi-label">Avg Bill / Person</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-val">1.44</div>
+          <div class="kpi-label">Avg Orders / Person</div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <h2><span class="icon">❗</span> Core Problem</h2>
+      <p>
+        Despite having a functional Power BI dashboard, several critical business questions 
+        remain unanswered or under-explored. The current visualizations surface 
+        <em>what happened</em>, but do not explain <em>why</em> or prescribe 
+        <em>what to do next</em>.
+      </p>
+      <ul>
+        <li>No drill-down analysis linking <strong>hour-of-day trends</strong> to specific store locations.</li>
+        <li><strong>Coffee (39%)</strong> and <strong>Tea (28%)</strong> dominate category sales — yet sub-category profitability is unexplored.</li>
+        <li>Footfall is nearly equal across all three stores, but <strong>revenue per visitor</strong> differences are not surfaced.</li>
+        <li><strong>Order size distribution</strong> (Large 30%, Regular 31%) is measured but not correlated to revenue uplift.</li>
+        <li>Weekday vs. weekend patterns exist in the data but are not leveraged for operational planning.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Research Questions -->
+  <div class="card">
+    <div class="card-header"><span class="card-dot"></span> Analytical Research Questions</div>
+    <div class="card-body">
+      <p>The following questions — adapted from the project brief — frame the analysis scope:</p>
+      <div class="q-grid">
+        <div class="q-card"><span class="q-num">Q1</span>How do sales vary by day of the week and hour of the day?</div>
+        <div class="q-card"><span class="q-num">Q2</span>Are there identifiable peak times for sales activity, and do they differ by store?</div>
+        <div class="q-card"><span class="q-num">Q3</span>What is the total sales revenue for each month, and what is the growth trend?</div>
+        <div class="q-card"><span class="q-num">Q4</span>How do sales and footfall vary across the three store locations?</div>
+        <div class="q-card"><span class="q-num">Q5</span>What is the average price per order and how does it differ by product category?</div>
+        <div class="q-card"><span class="q-num">Q6</span>Which products and categories are the strongest revenue contributors?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scope & Deliverables -->
+  <div class="card">
+    <div class="card-header"><span class="card-dot"></span> Scope & Deliverables</div>
+    <div class="card-body">
+      <h2><span class="icon">📦</span> Expected Outputs</h2>
+      <ul class="deliverable-list">
+        <li>
+          <span class="del-check done">✓</span>
+          <span><strong>Power BI Dashboard</strong> — Filters by Month & Day, KPI cards, 6 visual panels (hourly trend, category pie, size distribution, store comparison, top 5 products, weekday orders).</span>
+        </li>
+        <li>
+          <span class="del-check"></span>
+          <span><strong>EDA Report</strong> — Statistical summary, outlier detection, missing value treatment, and correlation analysis on the transactional dataset.</span>
+        </li>
+        <li>
+          <span class="del-check"></span>
+          <span><strong>Insight Narrative</strong> — Written findings document answering all 6 research questions with supporting charts.</span>
+        </li>
+        <li>
+          <span class="del-check"></span>
+          <span><strong>Recommendations</strong> — Actionable suggestions for staffing schedules, inventory prioritization, and promotional campaigns based on peak-time and product analysis.</span>
+        </li>
+      </ul>
+
+      <hr/>
+
+      <h2><span class="icon">🗂</span> Dataset Schema (expected)</h2>
+      <div class="code-block">
+<span class="c"># Transactional columns expected in source data</span>
+<span class="k">columns</span> = [
+  <span class="s">"transaction_id"</span>,   <span class="c"># unique order ID</span>
+  <span class="s">"transaction_date"</span>,   <span class="c"># YYYY-MM-DD</span>
+  <span class="s">"transaction_time"</span>,   <span class="c"># HH:MM (6 AM – 8 PM)</span>
+  <span class="s">"store_location"</span>,     <span class="c"># Astoria | Hell's Kitchen | Lower Manhattan</span>
+  <span class="s">"product_category"</span>,   <span class="c"># Coffee, Tea, Bakery, Branded …</span>
+  <span class="s">"product_type"</span>,       <span class="c"># e.g. Barista Espresso, Brewed Chai Tea</span>
+  <span class="s">"unit_price"</span>,         <span class="c"># float</span>
+  <span class="s">"quantity"</span>,           <span class="c"># int</span>
+  <span class="s">"size"</span>                <span class="c"># Large | Regular | Small | Not Defined</span>
+]
+      </div>
+    </div>
+
+    <!-- Footer meta -->
+    <div class="footer-meta">
+      <div class="avatar-row">
+        <div class="avatar">U</div>
+        <span>opened by <strong style="color:var(--text)">user</strong></span>
+      </div>
+      <span>☕ coffee-analytics · issue #1</span>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</body>
+</html>
